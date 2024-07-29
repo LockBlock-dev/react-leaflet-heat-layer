@@ -1,6 +1,6 @@
 import {
     createElementObject,
-    createTileLayerComponent,
+    createLayerComponent,
     updateGridLayer,
     type LayerProps,
     type LeafletContextInterface,
@@ -8,7 +8,7 @@ import {
 import L, { HeatLatLngTuple, LatLng } from "leaflet";
 import "leaflet.heat";
 
-interface HeatLayerProps extends L.HeatMapOptions {
+interface HeatLayerProps extends LayerProps, L.HeatMapOptions {
     latlngs: Array<LatLng | HeatLatLngTuple>;
 }
 
@@ -20,7 +20,18 @@ const createHeatLayer = (
     return createElementObject(layer, context);
 };
 
-export default createTileLayerComponent<
-    L.GridLayer,
-    LayerProps & HeatLayerProps
->(createHeatLayer, updateGridLayer);
+const updateHeatLayer = (
+    layer: L.HeatLayer,
+    { latlngs, ...options }: HeatLayerProps,
+    prevProps: HeatLayerProps
+) => {
+    layer.setLatLngs(latlngs);
+    layer.setOptions(options);
+
+    updateGridLayer(layer, options, prevProps);
+};
+
+export default createLayerComponent<L.HeatLayer, HeatLayerProps>(
+    createHeatLayer,
+    updateHeatLayer
+);

@@ -1,6 +1,6 @@
 {
     "name": "react-leaflet-heat-layer",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "React-leaflet-heat-layer is a plugin for react-leaflet. A wrapper component of Leaflet.heat.",
     "keywords": [
         "React",
